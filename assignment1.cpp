@@ -2,10 +2,10 @@
 using namespace std;
 
 // ============================================================================
-// Q1 - ARRAYS AND SEARCHING (10 Marks)
+// Q1 - ARRAYS AND SEARCHING
 // ============================================================================
 
-// THEORY ANSWERS - Q1.A
+// THEORY ANSWERS
 /*
 Q1.A.1 - Contiguous Memory Allocation:
 Contiguous memory allocation means that all array elements are stored in adjacent memory
@@ -32,7 +32,7 @@ regardless of array size. Linked lists are O(n) because nodes are scattered in m
 to reach index i, we must traverse i nodes sequentially.
 */
 
-// Q1.B.1:
+// LINEAR SEARCH FUNCTION - Q1.B.1
 int linearSearch(int arr[], int size, int key) {
     for (int i = 0; i < size; i++) {
         if (arr[i] == key) {
@@ -42,50 +42,21 @@ int linearSearch(int arr[], int size, int key) {
     return -1;
 }
 
-// Q1.B.2:
-void findMinMax(int arr[], int size, int &minVal, int &maxVal) {
-    //if (size <= 0) return;
-    
+// FIND MIN AND MAX - Q1.B.2
+void findMinMax(int arr[], int size, int& minVal, int& maxVal) {
     minVal = arr[0];
     maxVal = arr[0];
-    
     for (int i = 1; i < size; i++) {
-        if (arr[i] < minVal) {
-            minVal = arr[i];
-        } else if (arr[i] > maxVal) {
-            maxVal = arr[i];
-        }
+        if (arr[i] < minVal) minVal = arr[i];
+        if (arr[i] > maxVal) maxVal = arr[i];
     }
 }
 
-int main() {
-    int arr[10] = {4, 15, 7, 23, 1, 9, 42, 18, 6, 30};
-    int size = 10;
-    
-    int searchKey = 42;
-    
-    cout << "--- Q1: Arrays and Searching ---" << endl;
-    
-    int index = linearSearch(arr, size, searchKey);
-    if (index != -1) {
-        cout << "Linear Search: Value " << searchKey << " found at index " << index << "." << endl;
-    } else {
-        cout << "Linear Search: Value " << searchKey << " not found." << endl;
-    }
-    
-    int minVal, maxVal;
-    findMinMax(arr, size, minVal, maxVal);
-    
-    cout << "Min/Max Search: Minimum value is " << minVal << " and Maximum value is " << maxVal << ".\n" << endl;
-
-    return 0;
-}
-
 // ============================================================================
-// Q2 - BUBBLE SORT (10 Marks) - SELF LEARNING
+// Q2 - BUBBLE SORT
 // ============================================================================
 
-// THEORY ANSWERS - Q2.A
+// THEORY ANSWERS
 /*
 Q2.A.1 - How Bubble Sort Works:
 Bubble Sort repeatedly steps through the list, compares adjacent elements, and swaps them
@@ -112,16 +83,13 @@ makes it O(n) in best case. Use Selection Sort for unsorted data or when memory 
 void bubbleSort(int arr[], int size, int& swapCount) {
     swapCount = 0;
     
-    // Print initial array
     cout << "\nInitial array: ";
     for (int i = 0; i < size; i++) cout << arr[i] << " ";
     cout << endl;
     
-    // Outer loop for passes
     for (int i = 0; i < size - 1; i++) {
-        bool swapped = false;  // Optimization flag
+        bool swapped = false;
         
-        // Inner loop for comparisons
         for (int j = 0; j < size - i - 1; j++) {
             if (arr[j] > arr[j + 1]) {
                 // Swap
@@ -132,13 +100,11 @@ void bubbleSort(int arr[], int size, int& swapCount) {
                 swapped = true;
             }
         }
-        
-        // Print array after each pass
+
         cout << "After pass " << (i + 1) << ": ";
         for (int k = 0; k < size; k++) cout << arr[k] << " ";
         cout << endl;
         
-        // If no swaps occurred, array is sorted
         if (!swapped) {
             cout << "Array sorted early at pass " << (i + 1) << "!" << endl;
             break;
@@ -147,10 +113,10 @@ void bubbleSort(int arr[], int size, int& swapCount) {
 }
 
 // ============================================================================
-// Q3 - BINARY SEARCH ALGORITHM (10 Marks)
+// Q3 - BINARY SEARCH ALGORITHM
 // ============================================================================
 
-// THEORY ANSWERS - Q3.A
+// THEORY ANSWERS
 /*
 Q3.A.1 - Prerequisite for Binary Search:
 The array MUST be sorted in ascending (or descending) order. This is critical because
@@ -194,10 +160,10 @@ int binarySearch(int arr[], int size, int key, int& iterationCount) {
 }
 
 // ============================================================================
-// Q4 - COMPLEXITY ANALYSIS (BIG O) (10 Marks)
+// Q4 - COMPLEXITY ANALYSIS (BIG O)
 // ============================================================================
 
-// THEORY ANSWERS - Q4.A
+// THEORY ANSWERS
 /*
 Q4.A.1 - What Big O Notation Describes:
 Big O describes how an algorithm's time or space requirements grow as input size increases.
@@ -230,14 +196,6 @@ The asymptotic growth rate dominates constant factors for large inputs.
 
 // NESTED LOOP FUNCTION - Q4.B.1
 void nestedLoopFunction(int arr[], int n) {
-    /*
-    Time Complexity Analysis:
-    - Outer loop runs: n times
-    - Inner loop runs: n times for each outer iteration
-    - Total iterations: n * n = n²
-    - Each iteration does O(1) work
-    - Total Time Complexity: O(n²)
-    */
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
             cout << arr[i] * arr[j] << " ";
@@ -246,17 +204,7 @@ void nestedLoopFunction(int arr[], int n) {
     cout << endl;
 }
 
-// SINGLE LOOP FUNCTION - Q4.B.1
 void singleLoopFunction(int arr[], int n) {
-    /*
-    Time Complexity Analysis:
-    - Loop runs: n times
-    - Each iteration does O(1) work
-    - Total Time Complexity: O(n)
-    
-    Comparison: Single loop O(n) is linear, nested O(n²) is quadratic.
-    For n=1000: Single = 1000 ops, Nested = 1,000,000 ops (1000x slower)
-    */
     for (int i = 0; i < n; i++) {
         cout << arr[i] << " ";
     }
@@ -265,24 +213,6 @@ void singleLoopFunction(int arr[], int n) {
 
 // CHECK IF ALL ELEMENTS EXIST - Q4.B.2
 bool allElementsExist(int A[], int B[], int n) {
-    /*
-    Time Complexity Analysis of Current Approach:
-    Algorithm: For each element in A, search linearly in B
-    - Outer loop: O(n) iterations for each element in A
-    - Inner loop: O(n) iterations in array B for each search
-    - Total: O(n) * O(n) = O(n²)
-    This is inefficient for large arrays.
-    
-    More Efficient Approach (not coded, as per requirement):
-    1. Sort array B: O(n log n)
-    2. For each element in A, binary search in B: O(n log n)
-    3. Total: O(n log n) - much better than O(n²)
-    
-    Alternative (even better):
-    1. Create hash set from B: O(n)
-    2. For each element in A, lookup in hash set: O(n)
-    3. Total: O(n) with O(n) space
-    */
     for (int i = 0; i < n; i++) {
         bool found = false;
         for (int j = 0; j < n; j++) {
@@ -297,8 +227,28 @@ bool allElementsExist(int A[], int B[], int n) {
 }
 
 // ============================================================================
-// Q5 - SINGLY LINKED LIST (10 Marks)
+// Q5 - SINGLY LINKED LIST
 // ============================================================================
+
+// THEORY ANSWERS - Q5.A
+/*
+Q5.A.1 - Singly Linked List:
+A Singly Linked List is a linear data structure where each element (node) contains data
+and a pointer to the next node. Memory Structure Difference from Arrays:
+- Arrays: Contiguous memory blocks, fixed size, O(1) access
+- Linked Lists: Scattered memory (nodes allocated individually), dynamic size, O(n) access
+- Arrays allocate all at once; Linked Lists allocate per insertion
+
+Q5.A.2 - Time Complexities in Singly Linked List:
+- Insertion at head: O(1) - new node points to current head, update head pointer
+- Insertion at tail: O(n) - must traverse to find last node (no tail pointer stored)
+- Deletion by value: O(n) - must search for node (worst case: traverse whole list)
+
+Q5.A.3 - Memory Leak in Linked Lists:
+If you remove a node without calling delete, the memory remains allocated but inaccessible.
+This is called a "memory leak." To avoid: Always call delete on the node before unlinking it.
+Example: When removing node X, first save X's address, unlink it, then delete X.
+*/
 
 // NODE STRUCTURE - Q5.B.1
 struct Node {
@@ -308,7 +258,6 @@ struct Node {
     Node(int val) : data(val), next(nullptr) {}
 };
 
-// LINKED LIST CLASS
 class LinkedList {
 private:
     Node* head;
@@ -362,7 +311,6 @@ public:
             return;
         }
         
-        // Case: Delete from middle or tail
         Node* current = head;
         while (current != nullptr && current->next != nullptr) {
             if (current->next->data == val) {
@@ -375,11 +323,9 @@ public:
             current = current->next;
         }
         
-        // Case: Value not found
         cout << "Value " << val << " not found in list\n";
     }
     
-    // Destructor to free memory
     ~LinkedList() {
         Node* current = head;
         while (current != nullptr) {
@@ -390,28 +336,8 @@ public:
     }
 };
 
-// THEORY ANSWERS - Q5.A
-/*
-Q5.A.1 - Singly Linked List:
-A Singly Linked List is a linear data structure where each element (node) contains data
-and a pointer to the next node. Memory Structure Difference from Arrays:
-- Arrays: Contiguous memory blocks, fixed size, O(1) access
-- Linked Lists: Scattered memory (nodes allocated individually), dynamic size, O(n) access
-- Arrays allocate all at once; Linked Lists allocate per insertion
-
-Q5.A.2 - Time Complexities in Singly Linked List:
-- Insertion at head: O(1) - new node points to current head, update head pointer
-- Insertion at tail: O(n) - must traverse to find last node (no tail pointer stored)
-- Deletion by value: O(n) - must search for node (worst case: traverse whole list)
-
-Q5.A.3 - Memory Leak in Linked Lists:
-If you remove a node without calling delete, the memory remains allocated but inaccessible.
-This is called a "memory leak." To avoid: Always call delete on the node before unlinking it.
-Example: When removing node X, first save X's address, unlink it, then delete X.
-*/
-
 // ============================================================================
-// MAIN FUNCTION - DEMONSTRATION
+// MAIN FUNCTION
 // ============================================================================
 
 int main() {
