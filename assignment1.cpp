@@ -1,5 +1,4 @@
 #include <iostream>
-//#include <string>
 using namespace std;
 
 // ============================================================================
@@ -33,7 +32,7 @@ regardless of array size. Linked lists are O(n) because nodes are scattered in m
 to reach index i, we must traverse i nodes sequentially.
 */
 
-// LINEAR SEARCH FUNCTION - Q1.B.1
+// Q1.B.1:
 int linearSearch(int arr[], int size, int key) {
     for (int i = 0; i < size; i++) {
         if (arr[i] == key) {
@@ -43,14 +42,43 @@ int linearSearch(int arr[], int size, int key) {
     return -1;
 }
 
-// FIND MIN AND MAX - Q1.B.2
-void findMinMax(int arr[], int size, int& minVal, int& maxVal) {
+// Q1.B.2:
+void findMinMax(int arr[], int size, int &minVal, int &maxVal) {
+    //if (size <= 0) return;
+    
     minVal = arr[0];
     maxVal = arr[0];
+    
     for (int i = 1; i < size; i++) {
-        if (arr[i] < minVal) minVal = arr[i];
-        if (arr[i] > maxVal) maxVal = arr[i];
+        if (arr[i] < minVal) {
+            minVal = arr[i];
+        } else if (arr[i] > maxVal) {
+            maxVal = arr[i];
+        }
     }
+}
+
+int main() {
+    int arr[10] = {4, 15, 7, 23, 1, 9, 42, 18, 6, 30};
+    int size = 10;
+    
+    int searchKey = 42;
+    
+    cout << "--- Q1: Arrays and Searching ---" << endl;
+    
+    int index = linearSearch(arr, size, searchKey);
+    if (index != -1) {
+        cout << "Linear Search: Value " << searchKey << " found at index " << index << "." << endl;
+    } else {
+        cout << "Linear Search: Value " << searchKey << " not found." << endl;
+    }
+    
+    int minVal, maxVal;
+    findMinMax(arr, size, minVal, maxVal);
+    
+    cout << "Min/Max Search: Minimum value is " << minVal << " and Maximum value is " << maxVal << ".\n" << endl;
+
+    return 0;
 }
 
 // ============================================================================
