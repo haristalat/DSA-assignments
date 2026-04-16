@@ -481,7 +481,7 @@ int main() {
     list.display();
     
     cout << "\n========== END OF ASSIGNMENT ==========\n";
-    // GitHub: https://github.com/YourUsername/DSA-Assignments
+    // GitHub: https://github.com/haristalat/DSA-assignments/tree/main
     
     return 0;
 }
