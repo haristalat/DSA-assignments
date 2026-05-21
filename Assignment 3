@@ -1,6 +1,5 @@
  
 
-	
 University of Management and Technology
 Department of Artificial Intelligence
 
@@ -216,15 +215,13 @@ Q2.1 & Q2.2: C++ Code for Array-Based and Linked List-Based Stacks
 #include <iostream>
 using namespace std;
 
-// Q2.1: Array-Based Stack
+// Array-Based Stack
 class ArrayStack {
 private:
     int arr[10];
     int top;
-    
 public:
     ArrayStack() : top(-1) {}
-    
     void push(int val) {
         if (isFull()) {
             cout << "Stack Overflow! Cannot push " << val << endl;
@@ -232,7 +229,6 @@ public:
         }
         arr[++top] = val;
     }
-    
     int pop() {
         if (isEmpty()) {
             cout << "Stack Underflow! Cannot pop from empty stack." << endl;
@@ -240,7 +236,6 @@ public:
         }
         return arr[top--];
     }
-    
     int peek() {
         if (isEmpty()) {
             cout << "Stack is empty! Cannot peek." << endl;
@@ -248,54 +243,36 @@ public:
         }
         return arr[top];
     }
-    
-    bool isEmpty() {
-        return top == -1;
-    }
-    
-    bool isFull() {
-        return top == 9;
-    }
-    
+    bool isEmpty() { return top == -1; }
+    bool isFull() { return top == 9; }
     void display() {
         if (isEmpty()) {
             cout << "Stack is empty!" << endl;
             return;
         }
         cout << "Stack (top to bottom): ";
-        for (int i = top; i >= 0; i--) {
-            cout << arr[i] << " ";
-        }
+        for (int i = top; i >= 0; i--) cout << arr[i] << " ";
         cout << endl;
     }
 };
 
-// Q2.2: Linked List-Based Stack
+// Linked List-Based Stack
 struct Node {
     int data;
     Node* next;
     Node(int val) : data(val), next(nullptr) {}
 };
-
 class LinkedListStack {
 private:
     Node* top;
-    
 public:
     LinkedListStack() : top(nullptr) {}
-    
-    ~LinkedListStack() {
-        while (!isEmpty()) {
-            pop();
-        }
-    }
-    
+    ~LinkedListStack() { while (!isEmpty()) pop(); }
     void push(int val) {
         Node* newNode = new Node(val);
         newNode->next = top;
         top = newNode;
     }
-    
     int pop() {
         if (isEmpty()) {
             cout << "Stack Underflow! Cannot pop from empty stack." << endl;
@@ -307,7 +284,6 @@ public:
         delete temp;
         return val;
     }
-    
     int peek() {
         if (isEmpty()) {
             cout << "Stack is empty! Cannot peek." << endl;
@@ -315,11 +291,7 @@ public:
         }
         return top->data;
     }
-    
-    bool isEmpty() {
-        return top == nullptr;
-    }
-    
+    bool isEmpty() { return top == nullptr; }
     void display() {
         if (isEmpty()) {
             cout << "Stack is empty!" << endl;
@@ -335,54 +307,26 @@ public:
     }
 };
 
-Q2.3: Main Function Demonstration
-
 int main() {
-    cout << "\n========== STACK IMPLEMENTATIONS (Q2.3) ==========" << endl;
-    
-    // Array-based Stack
-    cout << "\n--- Array-Based Stack ---" << endl;
+    cout << "--- Array-Based Stack ---" << endl;
     ArrayStack arrStack;
-    cout << "Pushing 5 values: 10, 20, 30, 40, 50" << endl;
-    arrStack.push(10);
-    arrStack.push(20);
-    arrStack.push(30);
-    arrStack.push(40);
-    arrStack.push(50);
+    arrStack.push(10); arrStack.push(20); arrStack.push(30); arrStack.push(40); arrStack.push(50);
     arrStack.display();
-    
-    cout << "Popping 2 values..." << endl;
     cout << "Popped: " << arrStack.pop() << endl;
     cout << "Popped: " << arrStack.pop() << endl;
     arrStack.display();
-    
     cout << "Peeking: " << arrStack.peek() << endl;
-    
-    // Linked List-based Stack
+
     cout << "\n--- Linked List-Based Stack ---" << endl;
     LinkedListStack llStack;
-    cout << "Pushing 5 values: 10, 20, 30, 40, 50" << endl;
-    llStack.push(10);
-    llStack.push(20);
-    llStack.push(30);
-    llStack.push(40);
-    llStack.push(50);
+    llStack.push(10); llStack.push(20); llStack.push(30); llStack.push(40); llStack.push(50);
     llStack.display();
-    
-    cout << "Popping 2 values..." << endl;
     cout << "Popped: " << llStack.pop() << endl;
     cout << "Popped: " << llStack.pop() << endl;
     llStack.display();
-    
     cout << "Peeking: " << llStack.peek() << endl;
-    
-    cout << "\nAttempting to pop from empty stack:" << endl;
-    ArrayStack emptyStack;
-    emptyStack.pop();
-    
     return 0;
 }
-
 
 
 Q3: STACK APPLICATION - BALANCED BRACKETS CHECKER 
@@ -404,38 +348,33 @@ This works because LIFO ensures every opening bracket finds its matching
 closing bracket in the correct nested order.
 
 
+#include <iostream>
 #include <stack>
 #include <string>
 using namespace std;
 
 bool isBalanced(string expr) {
     stack<char> st;
-    
     for (char c : expr) {
-        if (c == '(' || c == '[' || c == '{') {
-            st.push(c);
-        }
+        if (c == '(' || c == '[' || c == '{') st.push(c);
         else if (c == ')' || c == ']' || c == '}') {
             if (st.empty()) return false;
-            
-            char top = st.top();
-            st.pop();
-            
+            char top = st.top(); st.pop();
             if ((c == ')' && top != '(') ||
                 (c == ']' && top != '[') ||
-                (c == '}' && top != '{')) {
-                return false;
-            }
+                (c == '}' && top != '{')) return false;
         }
     }
-    
     return st.empty();
 }
 
-// Test Cases:
-// Test 1: "(a + [b * {c + d}])" -> Balanced (true)
-// Test 2: "{a + (b - [c]}" -> Not Balanced (false)
-
+int main() {
+    string test1 = "(a + [b * {c + d}])";
+    string test2 = "{a + (b - [c]}";
+    cout << "Test 1: " << (isBalanced(test1) ? "Balanced" : "Not Balanced") << endl;
+    cout << "Test 2: " << (isBalanced(test2) ? "Balanced" : "Not Balanced") << endl;
+    return 0;
+}
 
 
                         SECTION B: QUEUES (15 Marks)
@@ -793,8 +732,7 @@ public:
     }
 };
 
-Q5.3: Main Function Demonstration
-
+// Q5.3: Main Function Demonstration
 int main() {
     cout << "\n========== QUEUE IMPLEMENTATIONS (Q5.3) ==========" << endl;
     
@@ -843,7 +781,6 @@ int main() {
 }
 
 
-
 Q6: QUEUE APPLICATION - EVALUATE POSTFIX EXPRESSION 
 
 
@@ -865,6 +802,7 @@ Why Stacks Work for Postfix:
 - LIFO nature of stack naturally handles the correct operator precedence
 - No need for parentheses or operator precedence rules
 
+#include <iostream>
 #include <stack>
 #include <string>
 #include <cctype>
@@ -872,21 +810,16 @@ using namespace std;
 
 int evaluatePostfix(string expr) {
     stack<int> st;
-    
     for (char c : expr) {
-        if (isdigit(c)) {
-            st.push(c - '0');
-        }
+        if (isdigit(c)) st.push(c - '0');
         else if (c == '+' || c == '-' || c == '*' || c == '/') {
             if (st.size() < 2) {
                 cout << "Invalid postfix expression!" << endl;
                 return -1;
             }
-            
             int operand2 = st.top(); st.pop();
             int operand1 = st.top(); st.pop();
             int result;
-            
             if (c == '+') result = operand1 + operand2;
             else if (c == '-') result = operand1 - operand2;
             else if (c == '*') result = operand1 * operand2;
@@ -897,23 +830,29 @@ int evaluatePostfix(string expr) {
                 }
                 result = operand1 / operand2;
             }
-            
             st.push(result);
         }
     }
-    
     return st.top();
 }
 
-// Test Cases:
-// Test 1: "23+" -> 5 (2 + 3 = 5)
-// Test 2: "53*2+" -> 17 (5 * 3 + 2 = 17)
-// Test 3: "842-*" -> 16 (8 * (4 - 2) = 16)
+int main() {
+    cout << "23+ = " << evaluatePostfix("23+") << endl;
+    cout << "53*2+ = " << evaluatePostfix("53*2+") << endl;
+    cout << "842-* = " << evaluatePostfix("842-*") << endl;
+    cout << "32/0* (division by zero):" << endl;
+    evaluatePostfix("32/0*");
+    return 0;
+}
 
 
 Github: https://github.com/haristalat/DSA-assignments
 
    
+
+
+
+
 
 END OF ASSIGNMENT
 
