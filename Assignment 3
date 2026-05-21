@@ -1,0 +1,918 @@
+ 
+
+	
+University of Management and Technology
+Department of Artificial Intelligence
+
+
+ASSIGNMENT 3: STACKS & QUEUES
+
+
+
+
+Student Name: M Haris Talat
+
+Student ID: S2024387001
+
+Course: CC323 - Data Structures and Algorithms
+
+Instructor: Dr. Sadaf Jabeen
+
+Due Date: 22 May 2026
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SECTION A: STACKS 
+
+
+
+Q1: STACK THEORY 
+
+
+Q1.1: What is a Stack? State the principle it follows and give two real-world 
+examples where stack behaviour is observed.
+
+A stack is a linear data structure that follows the Last-In-First-Out (LIFO) 
+principle. This means that the element that was added most recently is the first 
+one to be removed. In a stack, all insertions and deletions occur at one end 
+called the top of the stack.
+
+The LIFO principle works like a stack of plates in a cafeteria: when you add a 
+new plate, you place it on top, and when you need a plate, you take the topmost 
+one first. The last plate placed is the first one removed.
+
+Two real-world examples where stack behavior is observed:
+
+1. Browser Back Button: When you browse websites, each URL you visit is pushed 
+onto a stack. When you click the back button, the most recent URL is popped from 
+the stack, taking you to the previous page. This is a perfect LIFO implementation.
+
+2. Function Call Stack: In programming, when a function is called, it is pushed 
+onto the call stack. When the function returns, it is popped from the stack. If 
+function A calls function B, which calls function C, then C returns first, then 
+B, then A. This demonstrates the LIFO nature of stack-based execution.
+
+
+Q1.2: List and briefly explain the four core stack operations: push, pop, peek, 
+and isEmpty. For each, state its time complexity and justify it.
+
+The four core stack operations are:
+
+1. push(val): Adds an element to the top of the stack. In an array-based 
+   implementation, this involves incrementing the top pointer and storing the 
+   value at that index. In a linked list implementation, a new node is created 
+   and linked to the current top.
+   Time Complexity: O(1) - Constant time because we only add one element at a 
+   fixed position (the top) without traversing the entire stack.
+
+2. pop(): Removes and returns the top element from the stack. For arrays, this 
+   involves decrementing the top pointer. For linked lists, the top node is 
+   removed and its memory is freed.
+   Time Complexity: O(1) - Constant time because we only access and remove the 
+   top element directly without any traversal or searching.
+
+3. peek(): Returns the value of the top element without removing it from the 
+   stack. This simply accesses the element at the top position without 
+   modification.
+   Time Complexity: O(1) - Constant time because we only read the top element 
+   directly, without any traversal or searching operations.
+
+4. isEmpty(): Checks whether the stack is empty, typically by comparing the top 
+   pointer to a null or -1 value. It returns a boolean result.
+   Time Complexity: O(1) - Constant time because it only checks one condition 
+   (the value of the top pointer) regardless of stack size.
+
+
+Q1.3: What is a stack overflow and a stack underflow? In which operation does 
+each occur, and how should a well-written implementation handle them?
+
+Stack Overflow occurs when we attempt to push an element onto a stack that is 
+already full. This typically happens in array-based stack implementations where 
+the array has a fixed capacity. When we try to add an element beyond this 
+capacity, overflow occurs.
+- Occurs in: push() operation
+- Handling: A well-written implementation should check if the stack is full 
+  before attempting to push. If full, it should print an appropriate error 
+  message like "Stack Overflow!" instead of causing undefined behavior or 
+  corruption. Dynamic arrays or linked lists can be used to avoid fixed capacity 
+  limitations.
+
+Stack Underflow occurs when we attempt to pop or peek from an empty stack. Since 
+there are no elements to remove or access, this operation is invalid and would 
+result in undefined behavior if not handled properly.
+- Occurs in: pop() and peek() operations
+- Handling: A well-written implementation should check if the stack is empty 
+  before attempting these operations. If empty, it should print an error message 
+  like "Stack Underflow!" and either return a sentinel value (like -1) or not 
+  perform the operation. This prevents crashes and data corruption.
+
+
+Q1.4: Compare implementing a stack using an array vs a linked list. Mention at 
+least two trade-offs for each approach (memory, flexibility, overhead).
+
+Array-Based Stack:
+
+Advantages:
+- Memory Efficiency: Array-based stacks use contiguous memory, which is more 
+  cache-friendly and has less per-element memory overhead compared to linked 
+  lists (no need for pointers).
+- Simple Implementation: The logic is straightforward with direct index-based 
+  access to elements.
+
+Disadvantages:
+- Fixed Capacity: Arrays have a fixed size determined at creation time. If we 
+  need more space, we must either reject new elements (overflow) or use dynamic 
+  resizing, which is expensive.
+- Memory Waste: If we declare an array for 100 elements but only use 10, the 
+  remaining 90 spaces are wasted.
+
+Linked List-Based Stack:
+
+Advantages:
+- Dynamic Size: Linked lists can grow and shrink dynamically without 
+  pre-allocation of fixed memory. We only use as much memory as needed.
+- No Overflow: Since memory is allocated dynamically as needed, we won't 
+  experience overflow unless the entire system runs out of memory.
+
+Disadvantages:
+- Memory Overhead: Each node requires extra memory for a pointer (8-16 bytes on 
+  modern systems), increasing per-element overhead compared to arrays.
+- Cache Inefficiency: Nodes are scattered throughout memory in non-contiguous 
+  locations, leading to poor CPU cache performance and slower traversal compared 
+  to arrays.
+
+
+Q1.5: Trace the following sequence of operations on an initially empty stack:
+push(10) -> push(20) -> push(5) -> pop() -> peek() -> push(30) -> pop() -> pop()
+
+Initial State: [] (empty)
+
+After push(10):
+    [10]
+    top = 10
+
+After push(20):
+    [20]
+    [10]
+    top = 20
+
+After push(5):
+    [5]
+    [20]
+    [10]
+    top = 5
+
+After pop() - removes and returns 5:
+    [20]
+    [10]
+    top = 20
+    Returned: 5
+
+After peek() - returns top without removing:
+    [20]
+    [10]
+    top = 20
+    Returned: 20
+
+After push(30):
+    [30]
+    [20]
+    [10]
+    top = 30
+
+After pop() - removes and returns 30:
+    [20]
+    [10]
+    top = 20
+    Returned: 30
+
+After pop() - removes and returns 20:
+    [10]
+    top = 10
+    Returned: 20
+
+Final State: [10] with top = 10
+
+
+
+Q2: STACK IMPLEMENTATION 
+
+Q2.1 & Q2.2: C++ Code for Array-Based and Linked List-Based Stacks
+
+#include <iostream>
+using namespace std;
+
+// Q2.1: Array-Based Stack
+class ArrayStack {
+private:
+    int arr[10];
+    int top;
+    
+public:
+    ArrayStack() : top(-1) {}
+    
+    void push(int val) {
+        if (isFull()) {
+            cout << "Stack Overflow! Cannot push " << val << endl;
+            return;
+        }
+        arr[++top] = val;
+    }
+    
+    int pop() {
+        if (isEmpty()) {
+            cout << "Stack Underflow! Cannot pop from empty stack." << endl;
+            return -1;
+        }
+        return arr[top--];
+    }
+    
+    int peek() {
+        if (isEmpty()) {
+            cout << "Stack is empty! Cannot peek." << endl;
+            return -1;
+        }
+        return arr[top];
+    }
+    
+    bool isEmpty() {
+        return top == -1;
+    }
+    
+    bool isFull() {
+        return top == 9;
+    }
+    
+    void display() {
+        if (isEmpty()) {
+            cout << "Stack is empty!" << endl;
+            return;
+        }
+        cout << "Stack (top to bottom): ";
+        for (int i = top; i >= 0; i--) {
+            cout << arr[i] << " ";
+        }
+        cout << endl;
+    }
+};
+
+// Q2.2: Linked List-Based Stack
+struct Node {
+    int data;
+    Node* next;
+    Node(int val) : data(val), next(nullptr) {}
+};
+
+class LinkedListStack {
+private:
+    Node* top;
+    
+public:
+    LinkedListStack() : top(nullptr) {}
+    
+    ~LinkedListStack() {
+        while (!isEmpty()) {
+            pop();
+        }
+    }
+    
+    void push(int val) {
+        Node* newNode = new Node(val);
+        newNode->next = top;
+        top = newNode;
+    }
+    
+    int pop() {
+        if (isEmpty()) {
+            cout << "Stack Underflow! Cannot pop from empty stack." << endl;
+            return -1;
+        }
+        Node* temp = top;
+        int val = temp->data;
+        top = top->next;
+        delete temp;
+        return val;
+    }
+    
+    int peek() {
+        if (isEmpty()) {
+            cout << "Stack is empty! Cannot peek." << endl;
+            return -1;
+        }
+        return top->data;
+    }
+    
+    bool isEmpty() {
+        return top == nullptr;
+    }
+    
+    void display() {
+        if (isEmpty()) {
+            cout << "Stack is empty!" << endl;
+            return;
+        }
+        cout << "Stack (top to bottom): ";
+        Node* current = top;
+        while (current != nullptr) {
+            cout << current->data << " ";
+            current = current->next;
+        }
+        cout << endl;
+    }
+};
+
+Q2.3: Main Function Demonstration
+
+int main() {
+    cout << "\n========== STACK IMPLEMENTATIONS (Q2.3) ==========" << endl;
+    
+    // Array-based Stack
+    cout << "\n--- Array-Based Stack ---" << endl;
+    ArrayStack arrStack;
+    cout << "Pushing 5 values: 10, 20, 30, 40, 50" << endl;
+    arrStack.push(10);
+    arrStack.push(20);
+    arrStack.push(30);
+    arrStack.push(40);
+    arrStack.push(50);
+    arrStack.display();
+    
+    cout << "Popping 2 values..." << endl;
+    cout << "Popped: " << arrStack.pop() << endl;
+    cout << "Popped: " << arrStack.pop() << endl;
+    arrStack.display();
+    
+    cout << "Peeking: " << arrStack.peek() << endl;
+    
+    // Linked List-based Stack
+    cout << "\n--- Linked List-Based Stack ---" << endl;
+    LinkedListStack llStack;
+    cout << "Pushing 5 values: 10, 20, 30, 40, 50" << endl;
+    llStack.push(10);
+    llStack.push(20);
+    llStack.push(30);
+    llStack.push(40);
+    llStack.push(50);
+    llStack.display();
+    
+    cout << "Popping 2 values..." << endl;
+    cout << "Popped: " << llStack.pop() << endl;
+    cout << "Popped: " << llStack.pop() << endl;
+    llStack.display();
+    
+    cout << "Peeking: " << llStack.peek() << endl;
+    
+    cout << "\nAttempting to pop from empty stack:" << endl;
+    ArrayStack emptyStack;
+    emptyStack.pop();
+    
+    return 0;
+}
+
+
+
+Q3: STACK APPLICATION - BALANCED BRACKETS CHECKER 
+
+
+Algorithm Explanation:
+
+Stack-based Logic for Balanced Brackets:
+1. Iterate through each character in the expression
+2. If opening bracket ( [ { : push it onto the stack
+3. If closing bracket ) ] } :
+   - If stack is empty, return false (unmatched closing bracket)
+   - Pop from stack and check if it matches
+   - If types don't match, return false
+4. After processing all characters, stack must be empty
+5. Return true if balanced, false otherwise
+
+This works because LIFO ensures every opening bracket finds its matching 
+closing bracket in the correct nested order.
+
+
+#include <stack>
+#include <string>
+using namespace std;
+
+bool isBalanced(string expr) {
+    stack<char> st;
+    
+    for (char c : expr) {
+        if (c == '(' || c == '[' || c == '{') {
+            st.push(c);
+        }
+        else if (c == ')' || c == ']' || c == '}') {
+            if (st.empty()) return false;
+            
+            char top = st.top();
+            st.pop();
+            
+            if ((c == ')' && top != '(') ||
+                (c == ']' && top != '[') ||
+                (c == '}' && top != '{')) {
+                return false;
+            }
+        }
+    }
+    
+    return st.empty();
+}
+
+// Test Cases:
+// Test 1: "(a + [b * {c + d}])" -> Balanced (true)
+// Test 2: "{a + (b - [c]}" -> Not Balanced (false)
+
+
+
+                        SECTION B: QUEUES (15 Marks)
+
+
+Q4: QUEUE THEORY 
+
+
+Q4.1: What is a Queue? State the principle it follows and give two real-world 
+examples (not from this assignment) where queue behaviour is observed.
+
+A queue is a linear data structure that follows the First-In-First-Out (FIFO) 
+principle. This means that the element added first is the first one to be 
+removed. In a queue, insertions occur at one end called the rear (or tail) and 
+deletions occur at the other end called the front (or head).
+
+The FIFO principle works like a real-world queue at a bank or grocery store: the 
+first person who joins the line is the first person to be served. People join 
+at the back of the queue and are served from the front.
+
+Two real-world examples where queue behavior is observed:
+
+1. Printer Queue: When multiple documents are sent to a printer, they are stored 
+in a print queue. The printer processes documents in the order they were sent 
+(FIFO). The first document submitted is the first one printed. This ensures fair 
+and orderly printing without any document being skipped.
+
+2. Customer Service Call Centers: When customers call a service center, they are 
+placed in a queue. The call system routes calls to available agents in the order 
+they were received. The first customer to call may wait the longest but is also 
+served first, maintaining fairness and predictability in the system.
+
+
+Q4.2: Explain the four core queue operations: enqueue, dequeue, front, and 
+isEmpty. For each, state its time complexity and justify it.
+
+The four core queue operations are:
+
+1. enqueue(val): Adds an element to the rear of the queue. In an array-based 
+   implementation with a rear pointer, the element is placed at the rear position 
+   and the rear pointer is incremented. In a linked list implementation, a new 
+   node is created and attached to the rear node.
+   Time Complexity: O(1) - Constant time because we only add one element at a 
+   fixed position (the rear) without any traversal or searching.
+
+2. dequeue(): Removes and returns the element from the front of the queue. In an 
+   array-based implementation, this involves removing the front element and 
+   incrementing the front pointer. In a linked list implementation, the front 
+   node is removed and freed.
+   Time Complexity: O(1) - Constant time because we only remove the element at 
+   a fixed position (the front) directly, without traversing the queue.
+
+3. front(): Returns the value of the front element without removing it from the 
+   queue. This accesses the element at the front position.
+   Time Complexity: O(1) - Constant time because we only read one element at a 
+   fixed position (the front) directly, without any searching or traversal.
+
+4. isEmpty(): Checks whether the queue is empty. This typically involves 
+   comparing the front pointer to null or checking if front equals rear in a 
+   specific way, returning a boolean.
+   Time Complexity: O(1) - Constant time because it only checks a condition 
+   (the front pointer value) regardless of queue size.
+
+
+Q4.3: What is a circular queue? Why is it more memory-efficient than a simple 
+linear array-based queue? Explain what happens to the front and rear pointers.
+
+A circular queue is an improved array-based queue implementation where the rear 
+end of the array wraps around to connect with the front end, forming a logical 
+circle. This is implemented by using the modulo operator (%) to wrap indices 
+around when they reach the end of the array.
+
+Why Circular Queues are More Memory-Efficient:
+
+In a simple linear queue, after multiple enqueue and dequeue operations, the 
+front pointer moves forward but never goes backward. This causes "wasted space" 
+at the beginning of the array that cannot be reused. For example, if we have a 
+10-element array and dequeue 5 elements, the first 5 positions are now empty but 
+cannot be used for new elementsâ€”new elements can only be added beyond the rear, 
+wasting memory.
+
+In a circular queue, when the rear pointer reaches the end of the array, it 
+wraps around to the beginning using modulo arithmetic. This allows previously 
+dequeued space at the front to be reused for new elements. Therefore, the same 
+physical memory is recycled efficiently without waste.
+
+How Front and Rear Pointers Work:
+
+- Rear Pointer: When enqueuing, the rear pointer moves forward. When it reaches 
+  the end of the array (size - 1), the next enqueue operation wraps it back to 
+  index 0 using: rear = (rear + 1) % size
+
+- Front Pointer: When dequeuing, the front pointer moves forward similarly. When 
+  it reaches the end, it also wraps: front = (front + 1) % size
+
+- Empty Check: The queue is empty when front == -1
+
+- Full Check: The queue is full when (rear + 1) % size == front
+
+
+Q4.4: Compare implementing a queue using an array vs a linked list. Which is 
+generally preferred and why? Mention at least one scenario where the array 
+version has a disadvantage.
+
+Array-Based Queue:
+
+Advantages:
+- Memory Efficiency: Contiguous memory allocation, better cache locality, and no 
+  per-element pointer overhead.
+- Simple Implementation: Straightforward logic with index-based access.
+
+Disadvantages:
+- Fixed Capacity: Standard arrays have fixed size. Circular queues mitigate but 
+  don't fully solve this limitation.
+- Wasted Space in Linear Queues: In non-circular implementations, dequeued space 
+  at the front cannot be reused, causing significant memory waste.
+
+Linked List-Based Queue:
+
+Advantages:
+- Dynamic Size: Can grow without limit, only constrained by system memory.
+- No Wasted Space: Memory is allocated only as needed; dequeued elements are 
+  freed immediately.
+
+Disadvantages:
+- Memory Overhead: Each node carries pointer(s), increasing per-element memory 
+  use significantly.
+- Cache Inefficiency: Non-contiguous memory locations hurt CPU cache 
+  performance.
+
+Which is Generally Preferred:
+
+For most use cases, linked list-based queues are preferred because:
+1. They provide unlimited growth without manual resizing.
+2. They eliminate memory waste from unused array slots.
+3. They are more flexible when queue size is unpredictable.
+
+Scenario Where Array Version Has Disadvantage:
+
+Consider a system that processes variable-load tasks. During peak hours, 
+10,000 tasks are queued; during quiet hours, only 100 tasks remain. With a 
+fixed array of size 10,000, the quiet hours waste 9,900 array slots. A linked 
+list queue would only allocate memory for the 100 tasks, making it far more 
+memory-efficient during low-load periods.
+
+
+Q4.5: Trace the following sequence of operations on an initially empty queue:
+enqueue(5) -> enqueue(12) -> enqueue(8) -> dequeue() -> front() -> 
+enqueue(20) -> dequeue() -> dequeue()
+
+Initial State: (empty)
+front = null, rear = null
+
+After enqueue(5):
+[5]
+front -> 5 <- rear
+
+After enqueue(12):
+[5, 12]
+front -> 5, 12 <- rear
+
+After enqueue(8):
+[5, 12, 8]
+front -> 5, 12, 8 <- rear
+
+After dequeue() - removes and returns 5:
+[12, 8]
+front -> 12, 8 <- rear
+Returned: 5
+
+After front() - returns front element without removing:
+[12, 8]
+front -> 12, 8 <- rear
+Returned: 12
+
+After enqueue(20):
+[12, 8, 20]
+front -> 12, 8, 20 <- rear
+
+After dequeue() - removes and returns 12:
+[8, 20]
+front -> 8, 20 <- rear
+Returned: 12
+
+After dequeue() - removes and returns 8:
+[20]
+front -> 20 <- rear
+Returned: 8
+
+Final State: [20]
+front -> 20 <- rear (single element remaining)
+
+
+Q5: QUEUE IMPLEMENTATION 
+
+
+Q5.1 & Q5.2: C++ Code for Linked List Queue and Circular Queue
+
+#include <iostream>
+using namespace std;
+
+// Q5.1: Linked List-Based Queue
+struct QNode {
+    int data;
+    QNode* next;
+    QNode(int val) : data(val), next(nullptr) {}
+};
+
+class LinkedListQueue {
+private:
+    QNode* front;
+    QNode* rear;
+    
+public:
+    LinkedListQueue() : front(nullptr), rear(nullptr) {}
+    
+    ~LinkedListQueue() {
+        while (!isEmpty()) {
+            dequeue();
+        }
+    }
+    
+    void enqueue(int val) {
+        QNode* newNode = new QNode(val);
+        
+        if (isEmpty()) {
+            front = rear = newNode;
+        } else {
+            rear->next = newNode;
+            rear = newNode;
+        }
+    }
+    
+    int dequeue() {
+        if (isEmpty()) {
+            cout << "Queue Underflow! Cannot dequeue from empty queue." << endl;
+            return -1;
+        }
+        
+        QNode* temp = front;
+        int val = temp->data;
+        front = front->next;
+        
+        if (front == nullptr) {
+            rear = nullptr;
+        }
+        
+        delete temp;
+        return val;
+    }
+    
+    int front_val() {
+        if (isEmpty()) {
+            cout << "Queue is empty! Cannot access front." << endl;
+            return -1;
+        }
+        return front->data;
+    }
+    
+    bool isEmpty() {
+        return front == nullptr;
+    }
+    
+    void display() {
+        if (isEmpty()) {
+            cout << "Queue is empty!" << endl;
+            return;
+        }
+        cout << "Queue (front to rear): ";
+        QNode* current = front;
+        while (current != nullptr) {
+            cout << current->data << " ";
+            current = current->next;
+        }
+        cout << endl;
+    }
+};
+
+// Q5.2: Circular Queue Implementation - Array-Based
+class CircularQueue {
+private:
+    int arr[6];
+    int front;
+    int rear;
+    int size;
+    
+public:
+    CircularQueue() : front(-1), rear(-1), size(6) {}
+    
+    void enqueue(int val) {
+        if (isFull()) {
+            cout << "Queue Overflow! Cannot enqueue " << val << endl;
+            return;
+        }
+        
+        if (front == -1) {
+            front = 0;
+        }
+        
+        rear = (rear + 1) % size;
+        arr[rear] = val;
+    }
+    
+    int dequeue() {
+        if (isEmpty()) {
+            cout << "Queue Underflow! Cannot dequeue from empty queue." << endl;
+            return -1;
+        }
+        
+        int val = arr[front];
+        
+        if (front == rear) {
+            front = rear = -1;
+        } else {
+            front = (front + 1) % size;
+        }
+        
+        return val;
+    }
+    
+    bool isEmpty() {
+        return front == -1;
+    }
+    
+    bool isFull() {
+        return (rear + 1) % size == front;
+    }
+    
+    void display() {
+        if (isEmpty()) {
+            cout << "Queue is empty!" << endl;
+            return;
+        }
+        
+        cout << "Circular Queue: ";
+        int i = front;
+        
+        if (front <= rear) {
+            while (i <= rear) {
+                cout << arr[i] << " ";
+                i++;
+            }
+        } else {
+            while (i < size) {
+                cout << arr[i] << " ";
+                i++;
+            }
+            i = 0;
+            while (i <= rear) {
+                cout << arr[i] << " ";
+                i++;
+            }
+        }
+        cout << endl;
+    }
+};
+
+Q5.3: Main Function Demonstration
+
+int main() {
+    cout << "\n========== QUEUE IMPLEMENTATIONS (Q5.3) ==========" << endl;
+    
+    // Linked List-based Queue
+    cout << "\n--- Linked List-Based Queue ---" << endl;
+    LinkedListQueue llQueue;
+    cout << "Enqueuing 5 values: 5, 12, 8, 20, 15" << endl;
+    llQueue.enqueue(5);
+    llQueue.enqueue(12);
+    llQueue.enqueue(8);
+    llQueue.enqueue(20);
+    llQueue.enqueue(15);
+    llQueue.display();
+    
+    cout << "Dequeuing 2 values..." << endl;
+    cout << "Dequeued: " << llQueue.dequeue() << endl;
+    cout << "Dequeued: " << llQueue.dequeue() << endl;
+    llQueue.display();
+    
+    // Circular Queue
+    cout << "\n--- Circular Queue ---" << endl;
+    CircularQueue cQueue;
+    cout << "Enqueuing 6 values: 1, 2, 3, 4, 5, 6" << endl;
+    cQueue.enqueue(1);
+    cQueue.enqueue(2);
+    cQueue.enqueue(3);
+    cQueue.enqueue(4);
+    cQueue.enqueue(5);
+    cQueue.enqueue(6);
+    cQueue.display();
+    
+    cout << "Attempting to enqueue 7 (overflow)..." << endl;
+    cQueue.enqueue(7);
+    
+    cout << "Dequeuing 2 values..." << endl;
+    cout << "Dequeued: " << cQueue.dequeue() << endl;
+    cout << "Dequeued: " << cQueue.dequeue() << endl;
+    cQueue.display();
+    
+    cout << "Enqueuing 2 new values: 7, 8 (demonstrating wrap-around)" << endl;
+    cQueue.enqueue(7);
+    cQueue.enqueue(8);
+    cQueue.display();
+    
+    return 0;
+}
+
+
+
+Q6: QUEUE APPLICATION - EVALUATE POSTFIX EXPRESSION 
+
+
+Algorithm Explanation:
+
+Stack-based Logic for Postfix Evaluation:
+1. Iterate through each character in the postfix expression
+2. If character is a digit: push its integer value onto the stack
+3. If character is an operator (+, -, *, /):
+   - Pop two operands: operand2 (top), operand1 (second)
+   - Apply operator: result = operand1 operator operand2
+   - Push result back onto stack
+4. After processing all characters, the top of stack is the result
+5. Special case: If division by zero occurs, print error and return -1
+
+Why Stacks Work for Postfix:
+- Postfix ordering ensures operands are always available when operators are 
+  encountered
+- LIFO nature of stack naturally handles the correct operator precedence
+- No need for parentheses or operator precedence rules
+
+#include <stack>
+#include <string>
+#include <cctype>
+using namespace std;
+
+int evaluatePostfix(string expr) {
+    stack<int> st;
+    
+    for (char c : expr) {
+        if (isdigit(c)) {
+            st.push(c - '0');
+        }
+        else if (c == '+' || c == '-' || c == '*' || c == '/') {
+            if (st.size() < 2) {
+                cout << "Invalid postfix expression!" << endl;
+                return -1;
+            }
+            
+            int operand2 = st.top(); st.pop();
+            int operand1 = st.top(); st.pop();
+            int result;
+            
+            if (c == '+') result = operand1 + operand2;
+            else if (c == '-') result = operand1 - operand2;
+            else if (c == '*') result = operand1 * operand2;
+            else if (c == '/') {
+                if (operand2 == 0) {
+                    cout << "Error: Division by zero!" << endl;
+                    return -1;
+                }
+                result = operand1 / operand2;
+            }
+            
+            st.push(result);
+        }
+    }
+    
+    return st.top();
+}
+
+// Test Cases:
+// Test 1: "23+" -> 5 (2 + 3 = 5)
+// Test 2: "53*2+" -> 17 (5 * 3 + 2 = 17)
+// Test 3: "842-*" -> 16 (8 * (4 - 2) = 16)
+
+   
+
+END OF ASSIGNMENT
+
+
+
